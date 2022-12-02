@@ -58,9 +58,11 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler({SQLIntegrityConstraintViolationException.class})
     public R handlerSQLException(Exception e) {
-        log.error("handlerSQLException"+e.getMessage());
-        if (e.getMessage().contains("Duplicate entry")) {
-            return R.error("账号重复!");
+        String message = e.getMessage();
+        log.error("handlerSQLException"+message);
+        if (message.contains("Duplicate entry")) {
+            String[] split = message.substring(message.indexOf("Duplicate entry")).split(" ");
+            return R.error(split[2]+"已存在!");
         }
         return R.error("未知错误!");
     }

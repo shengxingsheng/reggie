@@ -1,10 +1,10 @@
 package com.sxs.service;
 
+import com.sxs.common.R;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.annotation.Validated;
 
 @SpringBootTest
 @Component
@@ -27,14 +27,10 @@ public class EmployeeServiceTest {
 //        R<Employee> login = employeeService.login(employee, new H);
 //        System.out.println(login);
     }
+
     @Test
-    @Validated
-    public void valid(){
-
-        add(null);
-    }
-
-    public void add(Integer a){
-        System.out.println("...");
+    public void page() {
+        R page = employeeService.page(1, 10, null);
+        System.out.println(page.getData());
     }
 }

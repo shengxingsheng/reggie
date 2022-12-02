@@ -12,4 +12,9 @@ offline_user.md
 .idea
 *.iws
 *.iml
-*.ipr
+*.ipr!/src/test/
+!/src/test/
+!/.idea/
+!/reggie.ipr
+!/reggie.iml
+!/reggie.iws

@@ -7,7 +7,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolationException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
+/**
+ * @author sxs
+ */
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
@@ -18,10 +22,9 @@ public class GlobalExceptionHandler {
      * @param e
      * @return
      */
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({MethodArgumentNotValidException.class, ConstraintViolationException.class})
     public R handlerParameterValidationException(Exception e) {
-        log.warn("Exception:{}", e.getMessage());
+        log.warn("handlerParameterValidationException:{}", e.getMessage());
         if (e instanceof MethodArgumentNotValidException) {
 //            List<String> collect = ((MethodArgumentNotValidException) e).getBindingResult()
 //                    .getAllErrors()
@@ -44,10 +47,26 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({BusinessException.class})
     public R handlerBusinessException(BusinessException e) {
+        log.error("handlerBusinessException："+e.getMessage());
         return R.error(e.getMessage());
     }
-    @ExceptionHandler()
-    public R handlerOrderException(Exception e) {
-        return R.error(e.getMessage());
+
+    /**
+     * 新增用户名重复异常
+     * @param e
+     * @return
+     */
+    @ExceptionHandler({SQLIntegrityConstraintViolationException.class})
+    public R handlerSQLException(Exception e) {
+        log.error("handlerSQLException"+e.getMessage());
+        if (e.getMessage().contains("Duplicate entry")) {
+            return R.error("账号重复!");
+        }
+        return R.error("未知错误!");
     }
+/*    @ExceptionHandler(Exception.class)
+    public R handlerOtherException(Exception e) {
+        log.error("handlerOtherException："+e.getMessage());
+        return R.error(e.getMessage());
+    }*/
 }

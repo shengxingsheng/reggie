@@ -8,6 +8,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author
+ */
 public class JsonUtil {
     private static ObjectMapper objectMapper = new ObjectMapper();
     /**
@@ -16,7 +19,9 @@ public class JsonUtil {
      * @return {@link String}
      */
     public static String toJsonString(Object obj) {
-        if (obj == null) return null;
+        if (obj == null) {
+            return null;
+        }
         String result = null;
         try {
             result = objectMapper.writeValueAsString(obj);
@@ -34,7 +39,9 @@ public class JsonUtil {
      * @return {@link T}
      */
     public static <T> T parseObject(String jsonStr, Class<T> clazz) {
-        if (StringUtils.isBlank(jsonStr) || clazz == null) return null;
+        if (StringUtils.isBlank(jsonStr) || clazz == null) {
+            return null;
+        }
         T t = null;
         try {
             t = objectMapper.readValue(jsonStr, clazz);
@@ -53,7 +60,9 @@ public class JsonUtil {
      * @return {@link List}<{@link T}>
      */
     public static <T> List<T> parseList(String listJsonStr, Class<T> clazz) {
-        if (StringUtils.isBlank(listJsonStr) || clazz == null) return Collections.emptyList();
+        if (StringUtils.isBlank(listJsonStr) || clazz == null) {
+            return Collections.emptyList();
+        }
         List<T> list = Collections.emptyList();
         try {
             list = objectMapper.readValue(listJsonStr, List.class);
@@ -73,7 +82,9 @@ public class JsonUtil {
      * @return {@link Map}<{@link K}, {@link V}>
      */
     public static <K,V> Map<K,V> parseMap(String mapJsonStr, Class<K> kClazz, Class<V> vClazz) {
-        if (StringUtils.isBlank(mapJsonStr) || kClazz == null || vClazz == null) return Collections.emptyMap();
+        if (StringUtils.isBlank(mapJsonStr) || kClazz == null || vClazz == null) {
+            return Collections.emptyMap();
+        }
         Map<K,V> map = Collections.EMPTY_MAP;
         try {
             map = objectMapper.readValue(mapJsonStr, objectMapper.getTypeFactory().constructParametricType(Map.class, kClazz, vClazz));
